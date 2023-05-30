@@ -7,7 +7,7 @@ import random
 import arcade
 
 import game_state
-#import arcade.gui
+import arcade.gui
 
 from attack_animation import AttackType, AttackAnimation
 from game_state import GameState
@@ -38,12 +38,18 @@ class MyGame(arcade.Window):
 
        arcade.set_background_color(arcade.color.BLACK_OLIVE)
 
-       self.player = None
-       self.computer = None
-       self.players = None
-       self.rock = None
-       self.paper = None
-       self.scissors = None
+       self.player = arcade.Sprite("assets/faceBeard.png")
+       self.player.center_x = 50
+       self.player.center_y = 50
+       self.computer = arcade.Sprite("assets/compy.png.")
+       self.computer.center_x = 100
+       self.computer.center_y = 100
+       self.players = arcade.SpriteList()
+       self.players.append(self.player)
+       self.players.append(self.computer)
+       self.rock = arcade.Sprite("assets/srock.png")
+       self.paper = arcade.Sprite("assets/spaper.png")
+       self.scissors = arcade.Sprite("assets/scissors.png")
        self.player_score = 0
        self.computer_score = 0
        self.player_attack_type = {}
@@ -117,11 +123,13 @@ class MyGame(arcade.Window):
                         60,
                         width=SCREEN_WIDTH,
                         align="center")
-
        self.draw_instructions()
        self.players.draw()
+       arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 10)
+       arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 10)
+       arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 10)
+       arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 10)
        self.draw_possible_attack()
-       self.draw_scores()
 
        #afficher l'attaque de l'ordinateur selon l'état de jeu
        #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
@@ -189,4 +197,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-
