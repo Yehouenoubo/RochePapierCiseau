@@ -48,6 +48,8 @@ class MyGame(arcade.Window):
        self.players.append(self.player)
        self.players.append(self.computer)
        self.rock = arcade.Sprite("venv/assets/srock.png")
+       self.rock.center_x = 800
+       self.rock.center_y = 300
        self.paper = arcade.Sprite("venv/assets/spaper.png")
        self.scissors = arcade.Sprite("venv/assets/scissors.png")
        self.player_score = 0
@@ -144,6 +146,7 @@ class MyGame(arcade.Window):
 
        self.draw_instructions()
        self.players.draw()
+       self.rock.draw()
        arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 5)
        arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 5)
        arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 5)
