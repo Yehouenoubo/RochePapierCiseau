@@ -26,7 +26,7 @@ class MyGame(arcade.Window):
    Si vous en avez besoin, remplacer le mot clé "pass" par votre propre code.
    """
 
-   PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) - (SCREEN_WIDTH / 4)
+   PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) * 1.5
    PLAYER_IMAGE_Y = SCREEN_HEIGHT / 2.5
    COMPUTER_IMAGE_X = (SCREEN_WIDTH / 2) * 1.5
    COMPUTER_IMAGE_Y = SCREEN_HEIGHT / 2.5
@@ -38,18 +38,18 @@ class MyGame(arcade.Window):
 
        arcade.set_background_color(arcade.color.BLACK_OLIVE)
 
-       self.player = arcade.Sprite("assets/faceBeard.png")
-       self.player.center_x = 50
-       self.player.center_y = 50
-       self.computer = arcade.Sprite("assets/compy.png.")
-       self.computer.center_x = 100
-       self.computer.center_y = 100
+       self.player = arcade.Sprite("venv/assets/faceBeard.png", 0.25)
+       self.player.center_x = 200
+       self.player.center_y = 300
+       self.computer = arcade.Sprite("venv/assets/compy.png.")
+       self.computer.center_x = 800
+       self.computer.center_y = 300
        self.players = arcade.SpriteList()
        self.players.append(self.player)
        self.players.append(self.computer)
-       self.rock = arcade.Sprite("assets/srock.png")
-       self.paper = arcade.Sprite("assets/spaper.png")
-       self.scissors = arcade.Sprite("assets/scissors.png")
+       self.rock = arcade.Sprite("venv/assets/srock.png")
+       self.paper = arcade.Sprite("venv/assets/spaper.png")
+       self.scissors = arcade.Sprite("venv/assets/scissors.png")
        self.player_score = 0
        self.computer_score = 0
        self.player_attack_type = {}
@@ -123,12 +123,31 @@ class MyGame(arcade.Window):
                         60,
                         width=SCREEN_WIDTH,
                         align="center")
+       arcade.draw_text("Appuyer sur une image pour faire une attaque!", 0,
+                        SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 3.5,
+                        arcade.color.BABY_BLUE_EYES,
+                        40,
+                        width=SCREEN_WIDTH,
+                        align="center")
+       arcade.draw_text("Le pointage du joueur est 0", -312.5,
+                        75,
+                        arcade.color.BABY_BLUE_EYES,
+                        20,
+                        width=SCREEN_WIDTH,
+                        align="center")
+       arcade.draw_text("Le pointage de l'ordinateur est 0", 300,
+                        75,
+                        arcade.color.BABY_BLUE_EYES,
+                        20,
+                        width=SCREEN_WIDTH,
+                        align="center")
+
        self.draw_instructions()
        self.players.draw()
-       arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 10)
-       arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 10)
-       arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 10)
-       arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 10)
+       arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 5)
+       arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 5)
+       arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 5)
+       arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 5)
        self.draw_possible_attack()
 
        #afficher l'attaque de l'ordinateur selon l'état de jeu
