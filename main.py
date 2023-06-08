@@ -47,9 +47,15 @@ class MyGame(arcade.Window):
        self.players = arcade.SpriteList()
        self.players.append(self.player)
        self.players.append(self.computer)
-       self.rock = arcade.Sprite("assets/srock.png")
-       self.paper = arcade.Sprite("assets/spaper.png")
-       self.scissors = arcade.Sprite("assets/scissors.png")
+       self.rock = arcade.Sprite("assets/srock.png", 0.5)
+       self.rock.center_x = 110
+       self.rock.center_y = 187.5
+       self.paper = arcade.Sprite("assets/spaper.png", 0.5)
+       self.paper.center_x = 210
+       self.paper.center_y = 180
+       self.scissors = arcade.Sprite("assets/scissors.png", 0.5)
+       self.scissors.center_x = 300
+       self.scissors.center_y = 180
        self.player_score = 0
        self.computer_score = 0
        self.player_attack_type = {}
@@ -168,8 +174,33 @@ class MyGame(arcade.Window):
        #vérifier si le jeu est actif (ROUND_ACTIVE) et continuer l'animation des attaques
        #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
        #changer l'état de jeu si nécessaire (GAME_OVER)
-       if game_state == ROUND_ACTIVE:
-           self.player_attack_type
+       if game_state == GameState.ROUND_ACTIVE:
+           if self.player_attack_chosen == True:
+               pc_attack = random.randint(0, 2)
+               if pc_attack == 0:
+                   self.computer_attack_type = AttackType.ROCK
+               elif pc_attack == 1:
+                   self.computer_attack_type = AttackType.PAPER
+               else:
+                   self.computer_attack_type = AttackType.SCISSORS
+               if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.PAPER:
+                   self.computer_score +=1
+               if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.SCISSORS:
+                   self.reset_round()
+               if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.ROCK:
+                   self.player_score +=1
+               if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.PAPER:
+                   self.player_score +=1
+               if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.SCISSORS:
+                   self.computer_score +=1
+               if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.ROCK:
+                   self.reset_round()
+               if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.PAPER:
+                   self.reset_round()
+               if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.SCISSORS:
+                   self.player +=1
+               if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.ROCK:
+                   self.computer_score +=1
 
 
    def on_key_press(self, key, key_modifiers):
@@ -187,6 +218,7 @@ class MyGame(arcade.Window):
            self.game_state = game_state.GameState.ROUND_ACTIVE
        if (self.game_state == game_state.GameState.ROUND_DONE and key  == arcade.key.SPACE):
            self.game_state = game_state.GameState.ROUND_ACTIVE
+           self.reset_round()
        if (self.game_state == game_state.GameState.GAME_OVER and key  == arcade.key.SPACE):
            self.game_state = game_state.GameState.ROUND_ACTIVE
 
@@ -194,11 +226,11 @@ class MyGame(arcade.Window):
        """
        Réinitialiser les variables qui ont été modifiées
        """
-       #self.computer_attack_type = -1
-       #self.player_attack_chosen = False
-       #self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
-       #self.player_won_round = False
-       #self.draw_round = False
+       self.computer_attack_type = -1
+       self.player_attack_chosen = False
+       self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
+       self.player_won_round = False
+       self.draw_round = False
 
        pass
 
