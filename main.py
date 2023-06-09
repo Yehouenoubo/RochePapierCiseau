@@ -122,46 +122,132 @@ class MyGame(arcade.Window):
        arcade.start_render()
 
        # Display title
-       arcade.draw_text(SCREEN_TITLE,
-                        0,
-                        SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,
-                        arcade.color.BLACK_BEAN,
-                        60,
-                        width=SCREEN_WIDTH,
-                        align="center")
-       arcade.draw_text("Appuyer sur une image pour faire une attaque!", 0,
-                        SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 3.5,
-                        arcade.color.BABY_BLUE_EYES,
-                        40,
-                        width=SCREEN_WIDTH,
-                        align="center")
-       arcade.draw_text("Le pointage du joueur est 0", -312.5,
-                        75,
-                        arcade.color.BABY_BLUE_EYES,
-                        20,
-                        width=SCREEN_WIDTH,
-                        align="center")
-       arcade.draw_text("Le pointage de l'ordinateur est 0", 300,
-                        75,
-                        arcade.color.BABY_BLUE_EYES,
-                        20,
-                        width=SCREEN_WIDTH,
-                        align="center")
+       if self.game_state == GameState.NOT_STARTED:
+           arcade.draw_text(SCREEN_TITLE,
+                            0,
+                            SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,
+                            arcade.color.BLACK_BEAN,
+                            60,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer la partie", 0,
+                            SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 3.5,
+                            arcade.color.BABY_BLUE_EYES,
+                            40,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           arcade.draw_text("Le pointage du joueur est 0", -312.5,
+                            75,
+                            arcade.color.BABY_BLUE_EYES,
+                            20,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           arcade.draw_text("Le pointage de l'ordinateur est 0", 300,
+                            75,
+                            arcade.color.BABY_BLUE_EYES,
+                            20,
+                            width=SCREEN_WIDTH,
+                            align="center")
 
-       self.draw_instructions()
-       self.players.draw()
-       self.rock.draw()
-       self.scissors.draw()
-       self.paper.draw()
-       arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 5)
-       arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 5)
-       arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 5)
-       arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 5)
-       self.draw_possible_attack()
+           self.draw_instructions()
+           self.players.draw()
+           self.rock.draw()
+           self.scissors.draw()
+           self.paper.draw()
+           arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 5)
+           self.draw_possible_attack()
 
-       #afficher l'attaque de l'ordinateur selon l'état de jeu
-       #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
-       pass
+       if self.game_state == GameState.ROUND_ACTIVE:
+           arcade.draw_text(SCREEN_TITLE,
+                            0,
+                            SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,
+                            arcade.color.BLACK_BEAN,
+                            60,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           arcade.draw_text("Appuyer sur une image pour faire une attaque!", 0,
+                            SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 3.5,
+                            arcade.color.BABY_BLUE_EYES,
+                            40,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           arcade.draw_text("Le pointage du joueur est:"+str(self.player_score), -312.5,
+                            75,
+                            arcade.color.BABY_BLUE_EYES,
+                            20,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           arcade.draw_text("Le pointage de l'ordinateur est 0"+str(self.computer_score), 300,
+                            75,
+                            arcade.color.BABY_BLUE_EYES,
+                            20,
+                            width=SCREEN_WIDTH,
+                            align="center")
+           self.draw_instructions()
+           self.players.draw()
+           self.rock.draw()
+           self.scissors.draw()
+           self.paper.draw()
+           arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 5)
+           self.draw_possible_attack()
+
+       if self.game_state == GameState.ROUND_DONE:
+           if self.player_won_round == True:
+               arcade.draw_text(SCREEN_TITLE,
+                                0,
+                                SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,
+                                arcade.color.BLACK_BEAN,
+                                60,
+                                width=SCREEN_WIDTH,
+                                align="center")
+               arcade.draw_text("Appuyer sur 'ESPACE' pour recommencer une nouvelle ronde!", 0,
+                                SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 3.5,
+                                arcade.color.BABY_BLUE_EYES,
+                                40,
+                                width=SCREEN_WIDTH,
+                                align="center")
+
+               arcade.draw_text("Le joueur a gagné la ronde", 0,
+                                SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 3.5,
+                                arcade.color.BABY_BLUE_EYES,
+                                40,
+                                width=SCREEN_WIDTH,
+                                align="center")
+
+               arcade.draw_text("Le pointage du joueur est:" + str(self.player_score), -312.5,
+                                75,
+                                arcade.color.BABY_BLUE_EYES,
+                                20,
+                                width=SCREEN_WIDTH,
+                                align="center")
+               arcade.draw_text("Le pointage de l'ordinateur est 0" + str(self.computer_score), 300,
+                                75,
+                                arcade.color.BABY_BLUE_EYES,
+                                20,
+                                width=SCREEN_WIDTH,
+                                align="center")
+           self.draw_instructions()
+           self.players.draw()
+           self.rock.draw()
+           self.scissors.draw()
+           self.paper.draw()
+           arcade.draw_rectangle_outline(100, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(200, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(300, 175, 75, 75, arcade.csscolor.RED, 5)
+           arcade.draw_rectangle_outline(800, 175, 75, 75, arcade.csscolor.RED, 5)
+           self.draw_possible_attack()
+
+
+
+           #afficher l'attaque de l'ordinateur selon l'état de jeu
+           #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
+
 
    def on_update(self, delta_time):
        """
@@ -174,7 +260,7 @@ class MyGame(arcade.Window):
        #vérifier si le jeu est actif (ROUND_ACTIVE) et continuer l'animation des attaques
        #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
        #changer l'état de jeu si nécessaire (GAME_OVER)
-       if game_state == GameState.ROUND_ACTIVE:
+       if self.game_state == GameState.ROUND_ACTIVE:
            if self.player_attack_chosen == True:
                pc_attack = random.randint(0, 2)
                if pc_attack == 0:
@@ -183,24 +269,28 @@ class MyGame(arcade.Window):
                    self.computer_attack_type = AttackType.PAPER
                else:
                    self.computer_attack_type = AttackType.SCISSORS
-               if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.PAPER:
-                   self.computer_score +=1
-               if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.SCISSORS:
-                   self.reset_round()
-               if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.ROCK:
-                   self.player_score +=1
-               if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.PAPER:
-                   self.player_score +=1
-               if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.SCISSORS:
-                   self.computer_score +=1
-               if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.ROCK:
-                   self.reset_round()
-               if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.PAPER:
-                   self.reset_round()
-               if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.SCISSORS:
-                   self.player +=1
-               if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.ROCK:
-                   self.computer_score +=1
+       if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.PAPER:
+           self.computer_score +=1
+       if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.SCISSORS:
+           self.reset_round()
+       if self.computer_attack_type == AttackType.SCISSORS and self.player_attack_type == AttackType.ROCK:
+           self.player_score +=1
+       if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.PAPER:
+           self.player_score +=1
+       if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.SCISSORS:
+           self.computer_score +=1
+       if self.computer_attack_type == AttackType.ROCK and self.player_attack_type == AttackType.ROCK:
+           self.reset_round()
+       if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.PAPER:
+           self.reset_round()
+       if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.SCISSORS:
+           self.player_score +=1
+       if self.computer_attack_type == AttackType.PAPER and self.player_attack_type == AttackType.ROCK:
+           self.computer_score +=1
+       if self.player_score == 3:
+           self.game_state = GameState.GAME_OVER
+       if self.computer_score == 3:
+           self.game_state = GameState.GAME_OVER
 
 
    def on_key_press(self, key, key_modifiers):
